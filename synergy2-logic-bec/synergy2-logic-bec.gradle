@@ -1,0 +1,14 @@
+dependencies {
+
+    implementation project(":synergy2-model-bec-gen")
+    implementation project(":synergy2-dao-bec")
+    implementation synergy_libs.synergy2.logic.sys
+    implementation synergy_libs.synergy2.logic.dvz
+    implementation synergy_libs.synergy2.base
+
+    implementation synergy_libs.synergy2.rest.client
+    implementation synergy_libs.synergy2.rest.util
+
+    testImplementation(testFixtures(project(":synergy2-model-bec")))
+    testImplementation(testFixtures(synergy_libs.synergy2.logic.sys))
+}

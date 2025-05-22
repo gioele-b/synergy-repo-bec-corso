@@ -1,0 +1,49 @@
+{
+  "compileOnSave": false,
+  "angularCompilerOptions": {
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "strictInputTypes": false
+  },
+  "compilerOptions": {
+    "baseUrl": "./",
+    "rootDir": ".",
+    "preserveSymlinks": true,
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "useDefineForClassFields": false,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "typeRoots": [
+      "@types"
+    ],
+    "lib": [
+      "ESNext",
+      "dom"
+    ],
+    // "strict": true
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "skipLibCheck": true,
+    // "noPropertyAccessFromIndexSignature": true,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true,
+    // "allowJs": true,
+    "paths": {
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp",
+    "projects/**/*.template",
+    "dist"
+  ]
+}

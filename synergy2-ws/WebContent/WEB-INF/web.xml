@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://JAVA.sun.com/xml/ns/javaee"
+>
+    <display-name>synergy2-ws</display-name>
+
+    <!-- CORS FILTER -->
+    <filter>
+        <filter-name>cors</filter-name>
+        <filter-class>net.synergy2.rest.startup.CorsFilter</filter-class>
+        <async-supported>true</async-supported>
+    </filter>
+    <filter-mapping>
+        <filter-name>cors</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    <!-- CONTEXT LISTENER -->
+    <listener>
+        <listener-class>net.synergy2.rest.startup.SynergyContextListener</listener-class>
+    </listener>
+    <!-- JERSEY REST -->
+    <servlet>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+        <init-param>
+            <param-name>javax.ws.rs.Application</param-name>
+            <param-value>net.synergy2.rest.startup.JerseyApplication</param-value>
+        </init-param>
+        <init-param>
+            <param-name>jersey.config.server.provider.classnames</param-name>
+            <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jersey-serlvet</servlet-name>
+        <url-pattern>/ws/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- SWAGGER CONFIG -->
+    <servlet>
+        <servlet-name>OpenApi-cal</servlet-name>
+        <servlet-class>net.synergy2.swagger.SwaggerConfigurationServlet</servlet-class>
+        <load-on-startup>-1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OpenApi-cal</servlet-name>
+        <url-pattern>/openapi/*</url-pattern>
+    </servlet-mapping>
+
+    <!-- QUARTZ SCHEDULER -->
+    <servlet>
+        <servlet-name>synergy-jobs-scheduler</servlet-name>
+        <servlet-class>net.synergy2.rest.startup.JobSchedulerServlet</servlet-class>
+        <init-param>
+            <param-name>shutdown-on-unload</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>start-scheduler-on-load</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>wait-on-shutdown</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <!-- ATMOSPHERE -->
+    <!-- TODO synergy2 : implementare <servlet> <description>AtmosphereServlet</description>
+        <servlet-name>AtmosphereServlet</servlet-name> <servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
+        <init-param> <param-name>com.sun.jersey.config.property.packages</param-name>
+        <param-value>net.synergy2.asyncio</param-value> </init-param> <init-param>
+        <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name> <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
+        </init-param> <init-param> <param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
+        <param-value>org.atmosphere.client.TrackMessageSizeFilter </param-value>
+        </init-param> <load-on-startup>0</load-on-startup> <async-supported>true</async-supported>
+        </servlet> <servlet-mapping> <servlet-name>AtmosphereServlet</servlet-name>
+        <url-pattern>/asyncio/*</url-pattern> </servlet-mapping> -->
+</web-app>

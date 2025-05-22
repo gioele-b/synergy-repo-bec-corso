@@ -1,0 +1,11 @@
+apply plugin: 'net.synergy2.DataRunner'
+dependencies {
+    implementation project(":synergy2-model-bec")
+    implementation project(":synergy2-model-bec-gen")
+    implementation project(":synergy2-logic-bec")
+    implementation project(":synergy2-script-bec")
+    implementation synergy_libs.synergy2.base
+    implementation synergy_libs.synergy2.logic.sys
+    api synergy_libs.synergy2.data.sys
+    implementation synergy_libs.synergy2.data.dvz
+}

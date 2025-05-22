@@ -1,0 +1,7 @@
+buildScan {
+    termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+    termsOfServiceAgree = 'yes'
+    setCaptureTaskInputFiles(true)
+    publishAlways()
+    tag 'ANDV'
+}

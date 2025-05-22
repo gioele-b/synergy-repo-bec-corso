@@ -1,0 +1,81 @@
+allprojects {
+
+    apply plugin: "com.diffplug.gradle.spotless"
+
+    spotless {
+        format "misc", {
+            target fileTree(dir: project.projectDir, includes: [
+                "*.md",
+                "**/.gitignore",
+                "Jenkinsfile*",
+                "*.gradle",
+                "config/**"
+            ], excludes: [
+                "build",
+                "bin",
+                "src",
+                ".gradle",
+                "*.xml"
+            ])
+            trimTrailingWhitespace()
+            indentWithTabs() // or spaces. Takes an integer argument if you don"t like 4
+            //            endWithNewline()
+        }
+        groovyGradle {
+            // same as groovy, but for .gradle (defaults to '*.gradle')
+            target "*.gradle"
+            def configDir = "${rootConfigProject.path}/config/spotless"
+            greclipse().configFile("${configDir}/formatter_synergy.xml", "${configDir}/spotless.groovyformat.prefs" )
+            paddedCell()
+        }
+        encoding "UTF-8"
+    }
+}
+
+subprojects {
+    spotless {
+        java {
+            // By default, all Java source sets will be formatted.  To change
+            // this, set the "target" parameter as described in the next section.
+            //licenseHeader "/* Licensed under Apache-2.0 */" // License header
+            //licenseHeaderFile "spotless.license.java"       // License header file
+            // Obviously, you can"t specify both licenseHeader and licenseHeaderFile at the same time
+
+            //importOrder ["java", "javax", "org", "com", "com.diffplug", ""] // An array of package names
+            importOrderFile "${rootConfigProject.path}/config/spotless/spotless.importorder"                          // An import ordering file, exported from Eclipse
+            // As before, you can"t specify both importOrder and importOrderFile at the same time
+            // You probably want an empty string at the end - all of the imports you didn"t specify
+            // explicitly will go there.
+
+            removeUnusedImports() // removes any unused imports
+            indentWithTabs()
+
+            eclipse().configFile "${rootConfigProject.path}/config/spotless/formatter_synergy.xml"  // XML file dumped out by the Eclipse formatter
+            // If you have an older Eclipse properties file, you can use that too.
+            // Eclipse formatter puts excess whitespace after lambda blocks
+            //    funcThatTakesLambdas(x -> {} , y -> {} )    // what Eclipse does
+            //      funcThatTakesLambdas(x -> {}, y -> {})    // what I wish Eclipse did
+            custom "Lambda fix", { it.replace("} )", "})").replace("} ,", "},") }
+        }
+        encoding "UTF-8"
+    }
+}
+
+// solo progetto root
+spotless {
+    format 'xml', {
+        target fileTree(dir: project.projectDir, includes: [
+                '**/*.xml','**/*.xsd'
+            ], excludes: [
+                "build",
+                "bin",
+                "src",
+                ".gradle",
+                "**/build/reports/**/*.xml",
+                "**/.settings/**/*.xml"
+            ])
+        // Use for example eclipseWtp('xml', '4.7.3a') to specify a specific version of Eclipse,
+        // available versions are: https://github.com/diffplug/spotless/tree/master/lib-extra/src/main/resources/com/diffplug/spotless/extra/eclipse_wtp_formatters
+        eclipseWtp('xml', '4.12.0').configFile "${rootConfigProject.path}/config/spotless/eclipse.xml.prefs"
+    }
+}

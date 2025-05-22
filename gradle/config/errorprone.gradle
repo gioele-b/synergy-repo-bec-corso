@@ -1,0 +1,81 @@
+// https://github.com/tbroyer/gradle-errorprone-plugin
+apply plugin: "net.ltgt.errorprone"
+
+tasks.withType(JavaCompile) {
+    options.incremental = true // togliere con gradle 4.10
+    // Some systems may not have set their platform default
+    // converter to "UTF-8", but we use unicode in our source
+    // files. Therefore ensure that javac uses unicode
+    options.encoding = "UTF-8"
+    //options.failOnError = false
+
+    options.forkOptions.jvmArgs = [
+        "-Xmx1g"
+    ]
+
+    // Fork a compiler daemon, there will be only one per build (not per task)
+    options.fork = true
+
+    options.errorprone {
+        // Configurazione delle regole che devono mandare in errore la build
+        // Mantenere l'ordine alfabetico plz :)
+        error(
+            "ArgumentSelectionDefectChecker",
+            "BigDecimalEquals",
+            "BigDecimalLiteralDouble",
+            "BoxedPrimitiveConstructor",
+            "CatchAndPrintStackTrace",
+            "ClassCanBeStatic",
+            "ClassNewInstance",
+            "CollectionIncompatibleType",
+            "CollectionToArraySafeParameter",
+            "CompareToZero",
+            "DefaultCharset",
+            "DoubleBraceInitialization",
+            "DoubleCheckedLocking",
+            "EqualsHashCode",
+            "EqualsIncompatibleType",
+            "EqualsNaN",
+            "Finally",
+            "HidingField",
+            "ImmutableEnumChecker",
+            "InconsistentCapitalization",
+            "IncrementInForLoopAndHeader",
+            "JavaLangClash",
+            "JdkObsolete",
+            "MissingOverride",
+            "ModifiedButNotUsed",
+            "ReferenceEquality",
+            "ShortCircuitBoolean",
+            "SynchronizeOnNonFinalField",
+            "UnnecessaryParentheses",
+        )
+
+        // Configurazione delle regole che ignoriamo
+        // Alcune di queste regole sono implementate anche in Pmd
+        disable(
+            "DateFormatConstant",
+            "OperatorPrecedence",
+            "StringSplitter",
+            "UnusedMethod",
+            "UnusedNestedClass",
+            "UnusedVariable",
+        )
+
+        // Disabilitiamo le regole Errorprone specifiche per Android
+        disable(
+            "AndroidInjectionBeforeSuper",
+            "MislabeledAndroidString",
+            "RectIntersectReturnValueIgnored",
+            "AndroidJdkLibsChecker",
+            "StaticOrDefaultInterfaceMethod",
+        )
+    }
+}
+
+tasks.withType(Test) { forkEvery = 100 }
+
+dependencies { 
+    errorproneJavac "com.google.errorprone:javac:${ERROR_PRONE_JAVAC_VERS}"
+    errorprone "com.google.errorprone:error_prone_core:${ERROR_PRONE_CORE_VERS}"
+}

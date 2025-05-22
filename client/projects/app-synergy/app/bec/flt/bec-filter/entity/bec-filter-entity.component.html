@@ -1,0 +1,65 @@
+<div class="synergy-page-main-content">
+  <synergy-toolbar class="synergy-page-toolbar" [loading]="loading$ | async">
+    <button sIconButton [icon]="'arrow-left' | stdIcon" class="" sShortcut="B" (sClick)="onBackClick ()"></button>
+    <synergy-breadcrumb [changed]="store.entityChanged ()" [pageTitle]="store.entity ()?.logDel"></synergy-breadcrumb>
+    <span class="ml-auto"></span>
+    @if (inEdit || inNew) {
+      <div class="s-btn-group">
+        <button sButton [icon]="'save' | stdIcon" priority="primary" sShortcut="S" (sClick)="onSaveClick ()">
+          {{ 'salva' | sTranslate }}
+          @if (store.entityChanged ()) { * }
+        </button>
+        <button sButton [icon]="'arrow-down' | stdIcon" priority="primary" [mat-menu-trigger-for]="saveMenu" >
+          <synergy-dropdown #saveMenu>
+            <button sDropdownItem *sIfAuthNew="true; table: authTable" (sClick)="onSaveAndDuplicateClick ()">{{ 'salvaDuplica' | sTranslate }}</button>
+            <button sDropdownItem (sClick)="onSaveAndExitClick ()">{{ 'salvaEsci' | sTranslate }}</button>
+            <button sDropdownItem (sClick)="onSaveAndViewClick ()">{{ 'salvaVisualizza' | sTranslate }}</button>
+          </synergy-dropdown>
+        </button>
+      </div>
+      <synergy-history [history]="store.history"></synergy-history>
+    }
+    @if (inEdit) {
+      <button sButton [icon]="'cancel-edit' | stdIcon" sShortcut="C"
+        (sClick)="onCancelClick (store.entity ()?.uid)">
+        {{ 'annulla' | sTranslate }}
+      </button>
+    }
+    @if (inView) {
+      <button *sIfAuthEdit="true; table: authTable" sButton [icon]="'edit' | stdIcon" priority="primary" sShortcut="E" [sFocus]="inView"
+        (sClick)="onEditClick (store.entity ()?.uid)">
+        {{ 'modifica' | sTranslate }}
+      </button>
+    }
+    @if (inView || inEdit) {
+      <button class="" iconSize="icon-md" [mat-menu-trigger-for]="otherMenu" sIconButton [icon]="'menu-other' | stdIcon">
+        <synergy-dropdown #otherMenu>
+          @if (inView) {
+            <button *sIfAuthNew="true; table: authTable" sDropdownItem [icon]="'duplicate' | stdIcon"
+              (sClick)="onDuplicateClick ()">
+              {{ 'duplica' | sTranslate }}
+            </button>
+          }
+          <button *sIfAuthDelete="true; table: authTable" sDropdownItem [icon]="'delete' | stdIcon" iconSize="icon-md"
+            (sClick)="onDeleteClick ()">
+            {{ 'elimina' | sTranslate }}
+          </button>
+        </synergy-dropdown>
+      </button>
+    }
+  </synergy-toolbar>
+  <synergy-page-content [loading]="loading$ | async">
+    @if (store.message (); as message) {
+      <div class="s-card s-card-info">{{ message }}</div>
+    }
+    <bec-filter-form
+      [readOnly]="inView"
+      class="s-card"
+      [formDesign]="formDesign"
+      mode="mainForm"
+      [entity]="store.entity ()"
+      (entityChange)="onEntityChange ($event)"
+      [validations]="store.validations ()">
+    </bec-filter-form>
+  </synergy-page-content>
+</div>

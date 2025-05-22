@@ -1,0 +1,34 @@
+apply plugin: 'war'
+
+
+war {
+    archiveFileName = "synergy2-ws.war"
+
+    manifest {
+        attributes 'build-version': project.version
+    }
+    webAppDirectory = file "${projectDir}/WebContent"
+}
+jar {
+    enabled = false
+}
+
+dependencies {
+
+    implementation project(":synergy2-model-bec-gen")
+    implementation project(":synergy2-logic-bec")
+    implementation project(":synergy2-dao-bec")
+    implementation project(":synergy2-ws-bec")
+    implementation synergy_libs.synergy2.ws.base
+    implementation synergy_libs.synergy2.base
+    implementation synergy_libs.synergy2.logic.sys
+    implementation synergy_libs.synergy2.ws.sys
+    implementation synergy_libs.synergy2.ws.dvz
+    implementation synergy_libs.synergy2.dev.ws.sys
+    implementation synergy_libs.synergy2.schedule.sys
+    implementation synergy_libs.synergy2.virtual.sys
+
+    implementation 'com.clickhouse:clickhouse-jdbc:0.8.2:shaded-all'
+
+    compileOnly synergy_libs.tomcat.catalina
+}

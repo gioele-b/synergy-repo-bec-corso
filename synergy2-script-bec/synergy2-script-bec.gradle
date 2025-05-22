@@ -1,0 +1,5 @@
+apply plugin: 'net.synergy2.GeneratorRunner'
+dependencies {
+    implementation synergy_libs.synergy2.script.sys
+    implementation synergy_libs.synergy2.script.dvz
+}

@@ -1,0 +1,63 @@
+buildscript {
+    repositories {
+        maven {
+            url "${artifactory_contextUrl}/${artifactory_repo}"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+    dependencies {
+        classpath("net.synergy2:synergy2-gradle-plugin:${SYNERGY2_PLUGIN}")
+    }
+    dependencyResolutionManagement {
+        versionCatalogs {
+            create("synergy_libs") {
+                from(files("gradle/synergy.versions.toml"))
+            }
+            create("spec_libs") {
+                from(files("gradle/spec.versions.toml"))
+            }
+        }
+    }
+}
+apply plugin: 'net.synergy2.Settings'
+
+rootProject.name = 'synergy2-bec'
+rootProject.buildFileName = "build.gradle"
+
+includeProject ("synergy2-setup-runner")
+includeProject ("synergy2-model-bec")
+includeProject ("synergy2-model-bec-gen")
+includeProject ("synergy2-dao-bec")
+includeProject ("synergy2-ws")
+includeProject ("synergy2-script-bec")
+includeProject ("synergy2-data-bec")
+includeProject ("synergy2-demo-bec")
+includeProject ("synergy2-test-bec")
+includeProject ("synergy2-logic-bec")
+includeProject ("synergy2-ws-bec")
+includeProject ("synergy2-schedule-bec")
+includeProject ("synergy2-virtual-bec")
+
+
+def includeProject(name) {
+    includeProject(name, new File(rootDir, name))
+}
+
+def includeProject(name, projectDir) {
+    def gradleFile = new File(projectDir, "${name}.gradle")
+    // deve esistere il file "<nome-progetto>.gradle" per essere considerato un progetto buono
+    if (gradleFile.exists()) {
+        // soddisfatti i requisiti, include il progetto
+        include name
+        def prj = findProject(":${name}")
+        prj.buildFileName = "${name}.gradle"
+        prj.projectDir = projectDir
+    } else {
+        println("Progetto: [" + projectDir.absolutePath + "] non trovato")
+    }
+}
+
+

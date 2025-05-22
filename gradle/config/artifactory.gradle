@@ -1,0 +1,97 @@
+apply plugin: "com.jfrog.artifactory"
+apply plugin: 'maven-publish'
+
+artifactory {
+    contextUrl = artifactory_contextUrl
+    publish {
+        repository {
+            repoKey = artifactory_repo_publish
+            username = artifactory_user
+            password = artifactory_password
+            ivy {
+                //Optional section for configuring Ivy publication. Assumes Maven repo layout if not specified
+                ivyLayout = '[organization]/[module]/[revision]/[type]s/ivy-[revision].xml'
+                artifactLayout = '[organization]/[module]/[revision]/[module]-[revision](-[classifier]).[ext]'
+                mavenCompatible = true
+            }
+        }
+        defaults {
+            publications('mavenJava', 'api', 'testFixtures')
+            publishArtifacts = true
+            publishPom = true
+            publishIvy = true
+            publishBuildInfo = false
+        }
+    }
+    clientConfig.setIncludeEnvVars(true)
+    clientConfig.setEnvVarsExcludePatterns('*password*,*secret*,*key*')
+}
+
+task apiJar(type: Jar) {
+    archiveBaseName = "publishing-api"
+    group = "publishing"
+    afterEvaluate {
+        from sourceSets.main.output
+        if (project.name.contains("model")) {
+            exclude "**/base/*SModelFieldsSupplier*"
+            exclude "**/base/*SDbmTbl*"
+            exclude "**/base/*SDbmRfk*"
+            exclude "**/base/*SDbmCol*"
+            exclude "**/base/*SAlias*"
+            exclude "**/base/*SClassFactory*"
+            exclude "**/db/**/abstracts/**"
+        }
+        if (project.name.contains("dao")) {
+            exclude "**/base/*SDaoSupplier*"
+            exclude "**/base/*SChecker*"
+            exclude "**/base/*STranslator*"
+            exclude "**/db/**/abstracts/**"
+        }
+    }
+}
+publishing {
+    afterEvaluate {
+        publications {
+            if (project.name.contains("model") || project.name.contains("dao")) {
+                def pomString = null
+
+                internal(MavenPublication) {
+                    from components.java
+                    pom.withXml {
+                        pomString = asString().toString()
+                    }
+                }
+
+                api(MavenPublication) {
+                    artifact apiJar
+                    pom.withXml {
+                        def builder = asString()
+                        builder.delete(0, builder.length())
+                        builder.append(pomString)
+                    }
+                }
+                testFixtures(MavenPublication) {
+                    artifact testFixturesJar
+                }
+            } else {
+                mavenJava(MavenPublication) {
+                    from components.java
+                }
+            }
+        }
+    }
+}
+afterEvaluate {
+    if (project.name.contains("model") || project.name.contains("dao")) {
+        generatePomFileForTestFixturesPublication.dependsOn(generatePomFileForInternalPublication)
+        generatePomFileForApiPublication.dependsOn(generatePomFileForInternalPublication)
+    }
+}
+
+artifactoryPublish {
+    if (project.name.contains("model") || project.name.contains("dao")) {
+        publications('api', 'testFixtures')
+    } else {
+        publications('mavenJava')
+    }
+}

@@ -1,0 +1,51 @@
+ext.scanBuild = System.getProperty("scanBuild","false").toBoolean()
+ext.trackTime = System.getProperty("trackTime","false").toBoolean()
+ext.applyCheckstyle = System.getProperty("applyCheckstyle","false").toBoolean()
+ext.applySpotless = System.getProperty("applySpotless","false").toBoolean()
+ext.applyPmd = System.getProperty("applyPmd","false").toBoolean()
+ext.applyErrorProne = System.getProperty("applyErrorProne","false").toBoolean()
+
+ext.rootConfigProject = rootDir
+ext.jenkins = System.getProperty("CI","false").toBoolean()
+
+println "HOME: $System.env.HOME"
+println "DEFAULT_JVM_OPTS: $System.env.DEFAULT_JVM_OPTS"
+println "GRADLE_USER_HOME: $System.env.GRADLE_USER_HOME"
+println "GRADLE_HOME: $System.env.GRADLE_HOME"
+println "GRADLE_OPTS: $System.env.GRADLE_OPTS"
+println "JAVA_HOME: $System.env.JAVA_HOME"
+println "GRADLE_VERSION: " + gradle.gradleVersion
+println "Application Name: $Application_name"
+println "Application Version: $version"
+
+wrapper {
+    group "build setup"
+    gradleVersion = "$GRADLE_VERSION"
+}
+
+subprojects {
+    if (scanBuild) {
+        apply from: "./scanbuild.gradle"
+    }
+
+    if(trackTime){
+        apply from: "./tracktime.gradle"
+    }
+
+    if(applySpotless){
+        apply from: "./spotless.gradle"
+    }
+
+    if(applyErrorProne){
+        apply from: "./errorprone.gradle"
+    }
+
+    if(applyCheckstyle){
+        apply from: "./checkstyle.gradle"
+    }
+
+    if(applyPmd){
+        apply from: "./pmd.gradle"
+    }
+    apply plugin: "org.sonarqube"
+}

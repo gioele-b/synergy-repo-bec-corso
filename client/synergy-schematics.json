@@ -1,0 +1,7 @@
+{
+  "modules": {
+    "bec": {
+      "sourceFolder": "projects/app-synergy/app/bec"
+    }
+  }
+}

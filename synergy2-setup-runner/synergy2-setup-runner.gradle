@@ -1,0 +1,44 @@
+import net.synergy2.plugin.gradle.tasks.SynergyDistTask
+import net.synergy2.plugin.gradle.tasks.SynergyProdDistTask
+import net.synergy2.plugin.gradle.tasks.SynergyTestDistTask
+
+apply plugin: 'net.synergy2.SetupRunner'
+
+dependencies {
+    implementation project(":synergy2-model-bec-gen")
+    implementation project(":synergy2-dao-bec")
+    implementation project(":synergy2-data-bec")
+    implementation project(":synergy2-demo-bec")
+    implementation project(":synergy2-logic-bec")
+    implementation project(":synergy2-script-bec")
+    implementation synergy_libs.synergy2.base
+    implementation synergy_libs.synergy2.base.setup.runner
+    implementation synergy_libs.synergy2.data.sys
+    implementation synergy_libs.synergy2.data.dvz
+    implementation synergy_libs.synergy2.demo.sys
+    implementation synergy_libs.synergy2.demo.dvz
+    implementation synergy_libs.synergy2.logic.sys
+    implementation synergy_libs.synergy2.script.sys
+    implementation synergy_libs.synergy2.script.dvz
+
+}
+
+
+Closure beforeZip = { SynergyDistTask task ->
+
+}
+
+tasks.register('dist-clienti', SynergyProdDistTask) {
+    appName = "synergy2-bec"
+    appVersion = "1.0.0"
+    // doBeforeZip(beforeZip)
+    // dependsOn("....")
+}
+
+tasks.register('dist-test', SynergyTestDistTask) {
+    appVersion = "1.0.0"
+    // doBeforeZip(beforeZip)
+    // dependsOn("....")
+}
+
+

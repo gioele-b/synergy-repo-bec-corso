@@ -1,0 +1,171 @@
+######################
+# Node
+######################
+**/node/**
+**/node_tmp/
+**/node_modules/
+**/package-lock.json
+npm-debug.log.*
+ 
+######################
+# Nx
+######################
+.nx/
+
+######################
+# Intellij
+######################
+**/.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+**/out/
+ 
+######################
+# Visual Studio Code
+######################
+**/.vscode/
+!/client/.vscode/settings.json
+!/client/.vscode/tasks.json
+!/client/.vscode/launch.json
+!/client/.vscode/extensions.json
+**/.history/
+ 
+######################
+# WebStorm
+######################
+**/.run
+
+######################
+# Maven
+######################
+# **/log/
+**/target/
+ 
+######################
+# Gradle
+######################
+**/.gradle/
+**/build/
+!ecm-viewer/WebContent/demo/assets/pdfjs/build/
+!/client/libraries/**/build
+
+######################
+# Eclipse
+######################
+
+**/.settings/
+**/.project
+**/.classpath
+
+######################
+# Package Files
+######################
+*.war
+*.ear
+*.db
+
+######################
+# Windows
+######################
+# Windows image file caches
+Thumbs.db
+ 
+# Folder config file
+Desktop.ini
+ 
+######################
+# Mac OSX
+######################
+.DS_Store
+.svn
+ 
+# Thumbnails
+._*
+ 
+# Files that might appear on external disk
+**/.Spotlight-V100
+**/.Trashes
+ 
+######################
+# Directories
+######################
+**/bin/
+**/deploy/
+
+*.private
+**/private/
+
+######################
+# Logs
+######################
+*.log
+ 
+######################
+# Others
+######################
+*.class
+!ecm-viewer/src/it/smi/ecm/viewer/controller/*.class
+*.*~
+*~
+.merge_file*
+
+######################
+# @slib2
+######################
+*.java.template
+ 
+######################
+# Gradle Wrapper
+######################
+!gradle/wrapper/gradle-wrapper.jar
+ 
+######################
+# Maven Wrapper
+######################
+!.mvn/wrapper/maven-wrapper.jar
+
+######################
+# Profiling files
+######################
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+######################
+# IDEs and editors
+######################
+**/.idea
+**/.c9/
+*.launch
+**/.settings/
+*.sublime-workspace
+
+######################
+# aws
+######################
+.aws
+######################
+# Synergy config
+######################
+synergy2-ws/WebContent/META-INF/context.xml
+**/resources/application.yml
+**/dist
+**/-env-config.yml
+**/env-config-*.yml
+**/env-config.yml
+
+synergy2-setup-runner/resources/info.properties
+
+client/schematics
+
+dataSources/
+
+.ideaDataSources/
+
+client/test-webc/
+
+client/projects/lib/styles/styles.css
+client/projects/lib/styles/styles.css.map
+client/.cache/*

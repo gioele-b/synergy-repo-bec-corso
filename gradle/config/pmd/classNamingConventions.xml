@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PMD2 Custom Ruleset" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd" xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                        http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>Rules for convention on class name, exclusion for generated files and metadata</description>
+
+    <!-- escluse le entità di Hibernate -->
+    <exclude-pattern>.*it/smi/dailytime/settings/model/entities/.*\.java.*</exclude-pattern>
+
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions">
+        <properties>
+            <property name="classPattern" value="[A-Z][a-zA-Z0-9]+"/>
+            <property name="utilityClassPattern" value="[A-Z][a-zA-Z]+"/>
+        </properties>
+    </rule>
+</ruleset>

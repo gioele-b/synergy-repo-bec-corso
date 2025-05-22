@@ -1,0 +1,42 @@
+@use "@slib2/theme/styles/variables" as *;
+
+.notification-button {
+  overflow: visible;
+  width: $appToolbarHeight - 4px;
+  height: $appToolbarHeight  - 4px;
+
+  ::ng-deep .mat-badge-content {
+    background: $secondary;
+    color: $on-secondary;
+  }
+}
+
+.is-substitute {
+  border: 2px solid $primary-light;
+
+  &::after {
+    content: attr(data-substitute);
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    text-align: right;
+    z-index: 9999;
+    background: $primary;
+    border-radius: 5px 5px 0 0;
+    padding: 0 10px;
+    font-size: .9rem;
+    overflow: hidden;
+    opacity: .6;
+    line-height: 1.5;
+    color: $on-primary;
+    max-width: calc(100vw - 20px);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.layout-toolbar-right {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+}

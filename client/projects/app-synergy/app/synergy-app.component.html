@@ -1,0 +1,26 @@
+<synergy-app-layout
+  [attr.data-substitute]="substituteName$ | async"
+  [ngClass]="{ 'is-substitute': isSubstitute$ | async }"
+  [attr.slib-version]= "ver"
+  [appTitle]="appTitle$ | async"
+  [menuItems]="menuItems$ | async"
+  [loading]="navigationLoading$ | async"
+  [menuNavConfig]="menuNavConfig"
+  [sidenavComponent]="sidenavComponent | async"
+  (toggleFavourite)="onToggleFavourite ($event.item)">
+  <router-outlet #appOutlet="outlet"></router-outlet>
+  <synergy-global-search class="layout-toolbar-left" *ngIf="currentGlobalSearchResultComponent$ | async as cp" [resultComponent]="cp"
+      [advancedFilterComponent]="currentGlobalSearchAdvancedFilterComponent$ | async"></synergy-global-search>
+  <div class="layout-toolbar-right">
+    <synergy-context-button *ngIf="hasContextConfig$ | async"></synergy-context-button>
+    <ng-container *ngFor="let injectedToolbarRightComponent of injectedToolbarRightComponents$ | async">
+      <ng-container *ngComponentOutlet="injectedToolbarRightComponent"></ng-container>
+    </ng-container>
+  </div>
+  <sys-menu-link-help class="layout-toolbar-right"></sys-menu-link-help>
+  <synergy-user-info class="layout-toolbar-right-after-apps"></synergy-user-info>
+  <button *sNotificationButton="let sidenav = sidenav" sButton (sClick)="onBellClick (sidenav)" class="notification-button s-btn-fab" style="border-radius: 50%">
+    <i sIcon="mdi mdi-bell-outline" iconSize="icon-lg" [matBadge]="notificationCounter$ | async" matBadgeOverlap="true" matBadgeSize="small" [matBadgeHidden]="!(notificationCounter$ | async) || sidenav.opened"></i>
+  </button>
+  <synergy-notification-panel  *sNotificationPanel="let sidenav = sidenav" [sidenav]="sidenav"  ></synergy-notification-panel>
+</synergy-app-layout>

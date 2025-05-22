@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PMD5 Custom Ruleset" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+         xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd" xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                        http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>Rules for God and Data Class, exclusion for specified classes</description>
+
+    <rule ref="category/java/design.xml/DataClass">
+        <priority>5</priority>
+    </rule>
+</ruleset>

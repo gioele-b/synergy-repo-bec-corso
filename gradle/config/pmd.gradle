@@ -1,0 +1,39 @@
+//Applica il plugin di Pmd
+apply plugin: "pmd"
+    pmd {
+    toolVersion = PMD_VERS
+    //consoleOutput = true
+    incrementalAnalysis = true
+    //sourceSets = [sourceSets.main]    // don"t check the test code
+    //pmdTest.enabled = false
+    ignoreFailures = true     // bug free or it doesn"t ship!
+    ruleSets = []
+    def pmdDir = "${rootConfigProject.path}/gradle/config/pmd"
+    // le modifiche sostanziali sono l'aver tolto gli exclude pattern
+    ruleSetFiles = files("${pmdDir}/pmd.xml",
+            "${pmdDir}/avoidCatchingNPE.xml",
+            "${pmdDir}/avoidDuplicateLiterals.xml",
+            "${pmdDir}/classNamingConventions.xml",
+            "${pmdDir}/closeResource.xml",
+            "${pmdDir}/dataClass.xml",
+//            "${pmdDir}/fieldNamingConventions.xml",
+            "${pmdDir}/fieldDeclarationsShouldBeAtStartOfClass.xml",
+            "${pmdDir}/godClass.xml",
+            "${pmdDir}/linguisticNaming.xml",
+            "${pmdDir}/looseCoupling.xml",
+            "${pmdDir}/methodNamingConventions.xml",
+            "${pmdDir}/properLogger.xml",
+            "${pmdDir}/simpleDateFormatNeedsLocale.xml",
+            "${pmdDir}/unusedFormalParameter.xml",
+            "${pmdDir}/unusedPrivateField.xml"
+        )
+}
+
+tasks.withType(Pmd) {
+    reports {
+        xml.enabled = jenkins
+        html.enabled = !jenkins
+        //html.destination "$rootProject.buildDir/pmd/${project.name}.html"
+        xml.destination file("$project.buildDir/reports/pmd/${project.name}.xml")
+    }
+}

@@ -1,0 +1,12 @@
+dependencies {
+    implementation project(":synergy2-model-bec-gen")
+    implementation project(":synergy2-dao-bec")
+    implementation project(":synergy2-logic-bec")
+
+    implementation synergy_libs.synergy2.base
+    implementation synergy_libs.synergy2.logic.sys
+    implementation synergy_libs.synergy2.virtual.sys
+
+    implementation synergy_libs.synergy2.rest.client
+
+}

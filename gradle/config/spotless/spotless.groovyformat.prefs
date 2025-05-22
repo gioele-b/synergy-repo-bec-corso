@@ -1,0 +1,4 @@
+groovy.formatter.remove.unnecessary.semicolons=true
+groovy.formatter.longListLength=1
+# https://github.com/diffplug/spotless/tree/master/plugin-gradle
+ignoreFormatterProblems=true

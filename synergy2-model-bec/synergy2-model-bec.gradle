@@ -1,0 +1,6 @@
+dependencies {
+    implementation synergy_libs.synergy2.base
+    api synergy_libs.synergy2.model.sys
+    api synergy_libs.synergy2.model.dvz
+
+}

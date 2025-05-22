@@ -1,0 +1,7 @@
+# generate from net.synergy2.GradleSettings
+[versions]
+
+[libraries]
+junit-jupiter-engine = 'org.junit.jupiter:junit-jupiter-engine:5.10.0'
+
+

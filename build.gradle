@@ -1,0 +1,53 @@
+
+buildscript {
+
+    repositories {
+        
+        maven {
+            url = "${artifactory_contextUrl}/${artifactory_repo}"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+    dependencies {
+        classpath("net.synergy2:synergy2-gradle-plugin:${SYNERGY2_PLUGIN}")
+
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:4.21.0"
+        classpath "org.hidetake:gradle-ssh-plugin:${SSH_VERS}"
+        classpath "com.diffplug.spotless:spotless-plugin-gradle:${SPOTLESS_VERS}"
+        classpath "net.ltgt.gradle:gradle-errorprone-plugin:${ERROR_PRONE_VERS}"
+        classpath "net.rdrei.android.buildtimetracker:gradle-plugin:${BUILD_TIMETRACKER_VERS}"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:${SONARQUBE_VERS}"
+    }
+}
+
+subprojects {
+    repositories {
+        maven {
+            url = "${artifactory_contextUrl}/${artifactory_repo}"
+            credentials {
+                username = "${artifactory_user}"
+                password = "${artifactory_password}"
+            }
+        }
+    }
+
+    apply plugin: "net.synergy2.GradleConfigurator"
+
+    dependencies {
+        testImplementation(
+                "junit:junit:${JUNIT4_VERS}",
+                "org.junit.jupiter:junit-jupiter-api:${JUNIT_VERS}",
+                "org.junit.jupiter:junit-jupiter-params:${JUNIT_VERS}"
+        )
+        testRuntimeOnly(
+                "org.junit.jupiter:junit-jupiter-engine:${JUNIT_VERS}",
+                "org.junit.platform:junit-platform-launcher:${JUNIT_PLATFORM_GRADLE_PLUGIN_VERS}"
+        )
+    }
+}
+
+apply from: "./gradle/config/plugins.gradle"
+

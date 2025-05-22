@@ -1,0 +1,6 @@
+dependencies {
+    implementation project(":synergy2-model-bec-gen")
+    implementation synergy_libs.synergy2.base
+    api synergy_libs.synergy2.dao.sys
+    implementation synergy_libs.synergy2.dao.dvz
+}

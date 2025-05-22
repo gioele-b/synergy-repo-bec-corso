@@ -1,0 +1,22 @@
+//Applica il plugin di Checkstyle
+apply plugin: "checkstyle"
+checkstyle {
+    showViolations = true
+    toolVersion = CHECKSTYLE_VERS
+
+    // ignoreFailures = true
+
+    maxErrors = 0
+    maxWarnings = 0
+
+    configDirectory = new File("${rootConfigProject.path}/config/checkstyle")
+}
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled = jenkins
+        xml.destination file("$project.buildDir/reports/checkstyle/${project.name}.xml")
+        html.enabled = !jenkins
+        html.destination file("$rootProject.buildDir/checkstyle/${project.name}.html")
+    }
+}

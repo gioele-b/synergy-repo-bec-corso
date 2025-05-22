@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PMD Custom Ruleset" xmlns="http://pmd.sf.net/ruleset/1.0.0"
+    xsi:noNamespaceSchemaLocation="http://pmd.sf.net/ruleset_xml_schema.xsd" xsi:schemaLocation="http://pmd.sf.net/ruleset/1.0.0
+                        http://pmd.sf.net/ruleset_xml_schema.xsd">
+
+    <description>Generic Rules for all classs except gen</description>
+
+    <!-- esclude gli algoritmi di crittografia esterni -->
+    <exclude-pattern>.*it/smi/dailytime/settings/utils/.*\.java.*</exclude-pattern>
+
+    <rule ref="category/java/bestpractices.xml">
+        <exclude name="AccessorClassGeneration" />
+        <exclude name="AvoidReassigningParameters" />
+<!--        <exclude name="SystemPrintln" />-->
+        <exclude name="AbstractClassWithoutAbstractMethod" />
+        <exclude name="AvoidPrintStackTrace" />
+        <!-- Abilitato con eccezzioni su unusedPrivateField.xml -->
+        <exclude name="UnusedPrivateField" />
+        <!-- Abilitato con eccezzioni su unusedFormalParameter.xml -->
+        <exclude name="UnusedFormalParameter" />
+        <!-- Abilitato con eccezzioni su looseCoupling.xml -->
+        <exclude name="LooseCoupling" />
+        <exclude name="GuardLogStatement" />
+        <!-- si sbaglia con i metodi setUp di CustomTaskChange di liquibase -->
+        <exclude name="JUnit4TestShouldUseBeforeAnnotation" />
+
+        <!-- Regole implementate in Errorprone -->
+        <exclude name="DoubleBraceInitialization" />
+        <exclude name="MissingOverride" />
+
+        <!-- Fine: Regole implementate in Errorprone -->
+    </rule>
+
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod">
+        <properties>
+            <property name="ignoredAnnotations" value="java.lang.Deprecated | com.fasterxml.jackson.annotation.JsonGetter" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="PackageCase" />
+        <exclude name="AtLeastOneConstructor" />
+        <exclude name="ShortVariable" />
+        <exclude name="ShortClassName" />
+        <exclude name="LongVariable" />
+        <exclude name="OnlyOneReturn" />
+        <exclude name="EmptyMethodInAbstractClassShouldBeAbstract" />
+        <exclude name="AvoidFinalLocalVariable" />
+        <exclude name="ControlStatementBraces" />
+        <exclude name="UnnecessaryModifier" />
+        <!-- Disabilitiamo questa regola per pmd 6.18.0 (https://github.com/pmd/pmd/issues/2017) -->
+        <exclude name="UnnecessaryFullyQualifiedName" />
+        <exclude name="ShortMethodName" />
+        <exclude name="PrematureDeclaration" />
+        <!-- abilitato con restrizione in classNamingConventions.xml -->
+        <exclude name="ClassNamingConventions" />
+        <!-- tolta perchè può risolversi con il modificatore protected -->
+        <exclude name="CommentDefaultAccessModifier" />
+        <!-- abilitato con restrizione in fieldDeclarationsShouldBeAtStartOfClass.xml -->
+        <exclude name="FieldDeclarationsShouldBeAtStartOfClass" />
+        <!-- abilitato con restrizione in linguisticNaming.xml -->
+        <exclude name="LinguisticNaming" />
+        <!-- abilitato con restrizione in methodNamingConventions.xml -->
+        <exclude name="MethodNamingConventions" />
+        <!-- tolta questa regole per non dover usare Guava e perchè i metodi protected servono per i test -->
+        <exclude name="AvoidProtectedMethodInFinalClassNotExtending" />
+    </rule>
+
+    <rule ref="category/java/errorprone.xml">
+        <exclude name="DataflowAnomalyAnalysis" />
+
+        <exclude name="BeanMembersShouldSerialize" />
+        <!-- abilitato con restrizione in properLogger.xml -->
+        <exclude name="ProperLogger" />
+        <exclude name="UseLocaleWithCaseConversions" />
+        <!-- abilitato con restrizione in avoidCatchingNPE.xml -->
+        <exclude name="AvoidCatchingNPE" />
+
+        <!-- abilitato con restrizione in avoidDuplicateLiterals.xml -->
+        <exclude name="AvoidDuplicateLiterals" />
+
+        <exclude name="NullAssignment" />
+        <!-- andven non sono sicurissomo di questo exclude -->
+        <exclude name="AvoidCatchingThrowable" />
+        <!-- abilitato con restrizione in closeResource.xml -->
+        <exclude name="CloseResource" />
+        <!-- abilitato con restrizione in simpleDateFormatNeedsLocale.xml -->
+        <exclude name="SimpleDateFormatNeedsLocale" />
+
+        <!-- TODO da eliminare con PMD 7 -->
+        <exclude name="LoggerIsNotStaticFinal" />
+
+        <!-- Regole implementate in Errorprone -->
+        <exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />
+        <exclude name="BadComparison" />
+        <exclude name="ClassCastExceptionWithToArray" />
+        <exclude name="JumbledIncrementer" />
+        <exclude name="OverrideBothEqualsAndHashcode" />
+        <exclude name="ReturnFromFinallyBlock" />
+
+        <!-- Fine: Regole implementate in Errorprone -->
+
+    </rule>
+    <rule ref="category/java/errorprone.xml/AvoidLiteralsInIfCondition">
+        <properties>
+            <property name="ignoreMagicNumbers" value="-1,0,1" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/errorprone.xml/ProperLogger">
+        <properties>
+            <property name="staticLoggerName" value="LOGGER" />
+            <property name="loggerName" value="log" />
+            <property name="loggerClass" value="Logger" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/design.xml">
+        <exclude name="ExcessiveClassLength" />
+        <exclude name="LoosePackageCoupling" />
+        <exclude name="NcssCount" />
+        <exclude name="ExcessiveImports" />
+        <exclude name="ExcessiveMethodLength" />
+        <exclude name="TooManyMethods" />
+        <exclude name="AvoidThrowingNullPointerException" />
+        <exclude name="NPathComplexity" />
+        <exclude name="ImmutableField" />
+        <exclude name="SingularField" />
+        <exclude name="AvoidThrowingRawExceptionTypes" />
+        <exclude name="ExcessiveParameterList" />
+        <exclude name="ExcessivePublicCount" />
+        <!-- abilitato con restrizione in godClass.xml -->
+        <exclude name="GodClass" />
+        <!-- abilitato con restrizione in dataClass.xml -->
+        <exclude name="DataClass" />
+        <exclude name="SingularField" />
+        <exclude name="TooManyFields" />
+        <exclude name="UseObjectForClearerAPI" />
+        <exclude name="AvoidCatchingGenericException" />
+        <!-- andven Da verificare se è una feature voluta riferimento: https://it.wikipedia.org/wiki/Legge_di_Demetra -->
+        <exclude name="LawOfDemeter" />
+    </rule>
+
+    <rule ref="category/java/design.xml/CyclomaticComplexity">
+        <properties>
+            <property name="methodReportLevel" value="50" />
+        </properties>
+        <priority>5</priority>
+    </rule>
+
+    <rule ref="category/java/design.xml/AvoidDeeplyNestedIfStmts">
+        <properties>
+            <property name="problemDepth" value="5" />
+        </properties>
+    </rule>
+
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired" />
+        <exclude name="UncommentedEmptyConstructor" />
+        <exclude name="CommentSize" />
+        <exclude name="UncommentedEmptyMethodBody" />
+    </rule>
+
+    <rule ref="category/java/multithreading.xml">
+        <!-- segna TUTTE le hashmap da sostituire, andrebbe fatto solo dove necessario -->
+        <exclude name="UseConcurrentHashMap" />
+        <!-- andven Da verificare -->
+        <exclude name="AvoidUsingVolatile" />
+        <!-- andven Da verificare -->
+        <exclude name="NonThreadSafeSingleton" />
+
+        <!-- Regole implementate in Errorprone -->
+        <exclude name="DoubleCheckedLocking" />
+
+        <!-- Fine: Regole implementate in Errorprone -->
+    </rule>
+    <rule ref="category/java/performance.xml">
+        <exclude name="AvoidInstantiatingObjectsInLoops" />
+        <exclude name="RedundantFieldInitializer" />
+
+        <!-- Regole implementate in Errorprone -->
+        <exclude name="BooleanInstantiation" />
+        <exclude name="ByteInstantiation" />
+        <exclude name="IntegerInstantiation" />
+        <exclude name="LongInstantiation" />
+        <exclude name="ShortInstantiation" />
+        <exclude name="StringInstantiation" />
+
+        <!-- Fine: Regole implementate in Errorprone -->
+
+    </rule>
+    <rule ref="category/java/security.xml" />
+
+    <!-- AUMENTO DI GRAVITÀ -->
+
+    <!-- bestpractices -->
+    <rule ref="category/java/bestpractices.xml/ArrayIsStoredDirectly">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/LooseCoupling">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/MethodReturnsInternalArray">
+        <priority>1</priority>
+    </rule>
+
+    <!-- codestyle -->
+    <rule ref="category/java/codestyle.xml/LocalVariableCouldBeFinal">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UselessParentheses">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/codestyle.xml/UseDiamondOperator">
+        <priority>1</priority>
+    </rule>
+
+    <!-- performance -->
+    <rule ref="category/java/performance.xml/InefficientEmptyStringCheck">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/performance.xml/TooFewBranchesForASwitchStatement">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/performance.xml/UseArraysAsList">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/performance.xml/UseStringBufferForStringAppends">
+        <priority>1</priority>
+    </rule>
+
+    <!-- design -->
+    <rule ref="category/java/design.xml/CollapsibleIfStatements">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/SignatureDeclareThrowsException">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/LogicInversion">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/UselessOverridingMethod">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/SimplifyBooleanReturns">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/SimplifyBooleanExpressions">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/design.xml/SimplifiedTernary">
+        <priority>1</priority>
+    </rule>
+
+    <!-- errorprone -->
+    <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingTypeName">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/AvoidFieldNameMatchingMethodName">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/UnnecessaryCaseChange">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/EmptyStatementNotInLoop">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/EmptyCatchBlock">
+        <priority>1</priority>
+    </rule>
+    <rule ref="category/java/errorprone.xml/AvoidUsingOctalValues">
+        <priority>1</priority>
+    </rule>
+
+    <!-- ABBASSAMENTO DI GRAVITÀ -->
+
+    <!-- codestyle -->
+    <rule ref="category/java/codestyle.xml/TooManyStaticImports">
+        <priority>5</priority>
+    </rule>
+
+    <!-- error prone -->
+    <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod">
+        <priority>3</priority>
+    </rule>
+
+</ruleset>

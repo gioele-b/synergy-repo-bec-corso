@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+      <delete dir="../esempio-pers/docs" />
+      <delete file="../esempio-pers/synergy-logic-docs.jar" />
+        <javadoc
+          access="public"
+          author="false"
+          classpath="../synergy-ws/WebContent/WEB-INF/lib/*;"
+          destdir="../esempio-pers/docs"
+          nodeprecated="false"
+          nodeprecatedlist="false"
+          noindex="false"
+          nonavbar="false"
+          notree="false"
+          packagenames="net.synergy.logic.*"
+          source="1.8"
+          sourcepath="../synergy-logic/src"
+          splitindex="true"
+          use="true"
+          version="true"
+        />
+      <jar destfile="../esempio-pers/synergy-logic-docs.jar" basedir="../esempio-pers/docs" />
+      <delete dir="../esempio-pers/docs" />
+    </target>
+</project>

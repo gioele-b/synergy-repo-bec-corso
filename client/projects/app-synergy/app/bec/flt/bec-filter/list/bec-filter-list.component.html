@@ -1,0 +1,18 @@
+<div class="synergy-page-main-content">
+  <synergy-toolbar class="synergy-page-toolbar" [loading]="loading$ | async">
+    <synergy-breadcrumb></synergy-breadcrumb>
+    <span class="ml-auto"></span>
+    <button *sIfAuthNew="true; table: authTable" sButton
+      [icon]="'add' | stdIcon" priority="primary" sShortcut="N"
+      (sClick)="onNewClick ()">{{ 'nuovo' | sTranslate }}</button>
+  </synergy-toolbar>
+  <synergy-page-content>
+    <synergy-grid #grid class="s-card" [config]="gridConfig" [sQuery]="query" rowSelection="none" (rowClick)="onRowClick ($event)">
+      <synergy-grid-toolbar [sFocus]="!(loading$ | async)">
+        <synergy-grid-toolbar-layout class="s-left-content" [sQuery]="query"></synergy-grid-toolbar-layout>
+        <synergy-grid-toolbar-export></synergy-grid-toolbar-export>
+        <synergy-grid-toolbar-refresh [sQuery]="query"></synergy-grid-toolbar-refresh>
+      </synergy-grid-toolbar>
+    </synergy-grid>
+  </synergy-page-content>
+</div>
